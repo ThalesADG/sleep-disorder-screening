@@ -1,49 +1,97 @@
 import streamlit as st
 import time
 
-# Configuração da Página
-st.set_page_config(page_title="Sleep Health AI", page_icon="😴")
+st.set_page_config(page_title="Sleep Health AI", page_icon="😴", layout="centered")
 
-# Título e Descrição
+lista_profissoes_raw = [
+    "Médico(a)", 
+    "Professor(a)", 
+    "Enfermeiro(a)", 
+    "Engenheiro(a)", 
+    "Contador(a)", 
+    "Advogado(a)", 
+    "Vendedor(a)"
+]
+profissoes_finais = sorted(lista_profissoes_raw) + ["Outro"]
+
+lista_genero = ["Homem", "Mulher"]
+lista_bmi = ["Normal", "Sobrepeso", "Obeso"]
+
 st.title("Triagem de Distúrbios do Sono 🩺")
-st.write("Preencha os dados biométricos do paciente para análise de risco.")
+st.markdown("### PoC - Análise Probabilística")
+st.write("Preencha os dados biométricos para calcular as probabilidades dos distúrbios.")
 
-# Formulário (Inputs)
 with st.form("ficha_paciente"):
-    st.subheader("Dados Clínicos")
+    st.subheader("1. Perfil e Dados Clínicos")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        idade = st.number_input("Idade", min_value=18, max_value=100, value=30)
-        genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
+        genero = st.selectbox("Gênero", lista_genero)
+        idade = st.number_input("Idade", min_value=1, max_value=150, value=30)
+        ocupacao = st.selectbox("Profissão", profissoes_finais)
         pressao = st.text_input("Pressão Arterial (ex: 120/80)", "120/80")
         
     with col2:
-        duracao_sono = st.slider("Duração do Sono (horas/dia)", 0.0, 12.0, 7.0, step=0.1)
-        nivel_stress = st.slider("Nível de Estresse (1-10)", 1, 10, 5)
-        bmi = st.selectbox("Categoria de IMC", ["Normal", "Sobrepeso", "Obeso"])
+        bmi = st.selectbox("Categoria de IMC", lista_bmi)
+        ativ_fisica = st.number_input("Atividade Física (min/dia)", min_value=0, max_value=300, value=45, step=5)
+        freq_cardiaca = st.number_input("Frequência Cardíaca (bpm)", min_value=40, max_value=200, value=72)
 
-    st.subheader("Estilo de Vida")
-    passos_diarios = st.number_input("Passos Diários", min_value=0, value=5000)
+    st.markdown("---")
+    st.subheader("2. Indicadores de Sono e Estresse")
     
-    # Botão de Envio
-    submitted = st.form_submit_button("Calcular Risco")
+    col3, col4 = st.columns(2)
+    with col3:
+        duracao_sono = st.slider("Duração do Sono (horas/dia)", 4.0, 10.0, 7.0, step=0.1)
+    with col4:
+        nivel_stress = st.slider("Nível de Estresse (3 a 8)", 3, 8, 5)
 
-# Ação do Botão (Simulação)
+    submitted = st.form_submit_button("Calcular Probabilidades", use_container_width=True)
+
 if submitted:
     with st.spinner('Processando dados com IA...'):
-        time.sleep(2) # Fingindo que está pensando
+        time.sleep(1.5) 
         
-        # AQUI É ONDE VAMOS CONECTAR O MODELO DEPOIS
-        # Por enquanto, é uma lógica "fake" só pra testar o visual
-        st.success("Análise Concluída!")
-        
-        if duracao_sono < 5 or nivel_stress > 7:
-            st.error("🚨 Resultado: Risco de INSÔNIA detectado.")
-            st.write("**Recomendação:** Encaminhar para especialista do sono.")
+        if nivel_stress > 6 or duracao_sono < 5.5:
+             probs = {"Sem distúrbio": 0.20, "Insônia": 0.65, "Apneia do sono": 0.15}
         elif bmi == "Obeso":
-            st.warning("⚠️ Resultado: Risco de APNEIA DO SONO detectado.")
+             probs = {"Sem distúrbio": 0.30, "Insônia": 0.20, "Apneia do sono": 0.50}
         else:
-            st.balloons()
-            st.info("✅ Resultado: Paciente SAUDÁVEL.")
+             probs = {"Sem distúrbio": 0.85, "Insônia": 0.10, "Apneia do sono": 0.05}
+
+        probs_ordenadas = dict(sorted(probs.items(), key=lambda item: item[1], reverse=True))
+
+        st.markdown("### 📊 Resultado da Análise")
+        
+        for diagnostico, probabilidade in probs_ordenadas.items():
+            percentual = int(probabilidade * 100)
+            
+            if diagnostico == "Sem distúrbio":
+                st.success(f"**{diagnostico}**: {percentual}%")
+                st.progress(percentual)
+            else:
+                if percentual > 50:
+                    st.error(f"**{diagnostico}**: {percentual}% (Alerta Crítico)")
+                else:
+                    st.warning(f"**{diagnostico}**: {percentual}%")
+                st.progress(percentual)
+
+        try:
+            sistole, diastole = pressao.split('/')
+        except:
+            sistole, diastole = 0, 0
+
+        with st.expander("Ver dados técnicos enviados ao modelo"):
+            st.json({
+                "Gender": genero,
+                "Age": idade,
+                "Occupation": ocupacao,
+                "Sleep Duration": duracao_sono,
+                "Quality of Sleep": "?", 
+                "Physical Activity Level": ativ_fisica,
+                "Stress Level": nivel_stress,
+                "BMI Category": bmi,
+                "Heart Rate": freq_cardiaca,
+                "Blood Pressure (Sys)": sistole,
+                "Blood Pressure (Dia)": diastole
+            })
