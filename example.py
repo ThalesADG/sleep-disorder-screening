@@ -36,7 +36,7 @@ def sistema_triagem_sono(dados_brutos):
 # --- Simulação de uso no seu PoC ---
 paciente_teste = {
     'Age': 33,
-    'BMI Category': 1, # Obeso
+    'BMI Category': 1,
     'Gender_Female': 1,
     'Systolic': 128,
     'Diastolic': 85,
