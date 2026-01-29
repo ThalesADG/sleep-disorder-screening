@@ -18,7 +18,7 @@ def processar_pressao(texto_pressao):
 
 def preparar_dados_para_modelo(dados_front):
     # Mapeamentos (Texto -> Numérico/Coluna)
-    mapa_bmi = {"Normal": 1, "Sobrepeso": 2, "Obeso": 3}
+    mapa_bmi = {"Normal": 0, "Sobrepeso": 1, "Obeso": 2}
     mapa_profissoes = {
         "Enfermeiro(a)": "Occ_Nurse",
         "Médico(a)": "Occ_Doctor",
@@ -32,14 +32,13 @@ def preparar_dados_para_modelo(dados_front):
     # Dados base numéricos
     dados_modelo = {
         'Age': dados_front['idade'],
-        'BMI Category': mapa_bmi.get(dados_front['bmi'], 1),
+        'BMI Category': mapa_bmi.get(dados_front['bmi'], 0),
         'Systolic': dados_front['sistole'],
         'Diastolic': dados_front['diastole'],
         'Stress Level': dados_front['stress'],
         'Sleep Duration': dados_front['sono_duracao'],
         'Heart Rate': dados_front['freq_cardiaca'],
         'Physical Activity Level': dados_front['ativ_fisica'],
-        'Quality of Sleep': dados_front['qualidade_sono'],
         'Gender_Male': 1 if dados_front['genero'] == 'Homem' else 0,
         'Gender_Female': 1 if dados_front['genero'] == 'Mulher' else 0
     }

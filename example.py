@@ -35,16 +35,16 @@ def sistema_triagem_sono(dados_brutos):
 
 # --- Simulação de uso no seu PoC ---
 paciente_teste = {
-    'Age': 52,
-    'BMI Category': 3, # Obeso
-    'Systolic': 145,
-    'Diastolic': 98,
-    'Stress Level': 7,
-    'Sleep Duration': 5.5,
-    'Heart Rate': 80,
-    'Quality of Sleep': 4,
-    'Physical Activity Level': 20,
-    'Occ_Nurse': 1
+    'Age': 33,
+    'BMI Category': 1, # Obeso
+    'Gender_Female': 1,
+    'Systolic': 128,
+    'Diastolic': 85,
+    'Stress Level': 6,
+    'Sleep Duration': 6.2,
+    'Heart Rate': 76,
+    'Physical Activity Level': 50,
+    'Occ_Other': 1
 }
 
 sistema_triagem_sono(paciente_teste)
