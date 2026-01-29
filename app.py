@@ -1,4 +1,5 @@
 import streamlit as st
+import logica
 import time
 
 st.set_page_config(page_title="Sleep Health AI", page_icon="😴", layout="centered")
@@ -28,7 +29,7 @@ with st.form("ficha_paciente"):
     
     with col1:
         genero = st.selectbox("Gênero", lista_genero)
-        idade = st.number_input("Idade", min_value=1, max_value=150, value=30)
+        idade = st.number_input("Idade", min_value=18, max_value=150, value=30)
         ocupacao = st.selectbox("Profissão", profissoes_finais)
         pressao = st.text_input("Pressão Arterial (ex: 120/80)", "120/80")
         
@@ -42,31 +43,41 @@ with st.form("ficha_paciente"):
     
     col3, col4 = st.columns(2)
     with col3:
-        duracao_sono = st.slider("Duração do Sono (horas/dia)", 4.0, 10.0, 7.0, step=0.1)
+        duracao_sono = st.slider("Duração do Sono (horas)", 4.0, 10.0, 7.0, step=0.1)
+        qualidade_sono = st.slider("Qualidade do Sono (Subjetiva)", 1, 10, 6)
     with col4:
         nivel_stress = st.slider("Nível de Estresse (3 a 8)", 3, 8, 5)
 
-    submitted = st.form_submit_button("Calcular Probabilidades", use_container_width=True)
+    submitted = st.form_submit_button("Calcular Risco", use_container_width=True)
 
 if submitted:
     with st.spinner('Processando dados com IA...'):
-        time.sleep(1.5) 
+        time.sleep(1.5) #Charme
         
-        if nivel_stress > 6 or duracao_sono < 5.5:
-             probs = {"Sem distúrbio": 0.20, "Insônia": 0.65, "Apneia do sono": 0.15}
-        elif bmi == "Obeso":
-             probs = {"Sem distúrbio": 0.30, "Insônia": 0.20, "Apneia do sono": 0.50}
-        else:
-             probs = {"Sem distúrbio": 0.85, "Insônia": 0.10, "Apneia do sono": 0.05}
-
-        probs_ordenadas = dict(sorted(probs.items(), key=lambda item: item[1], reverse=True))
+        sis, dia = logica.processar_pressao(pressao)
+        
+        dados_paciente = {
+            "genero": genero,
+            "idade": idade,
+            "ocupacao": ocupacao,
+            "bmi": bmi,
+            "ativ_fisica": ativ_fisica,
+            "freq_cardiaca": freq_cardiaca,
+            "sistole": sis,
+            "diastole": dia,
+            "sono_duracao": duracao_sono,
+            "qualidade_sono": qualidade_sono,
+            "stress": nivel_stress
+        }
+        
+        probs_ordenadas = logica.classificar_risco(dados_paciente)
 
         st.markdown("### 📊 Resultado da Análise")
         
         for diagnostico, probabilidade in probs_ordenadas.items():
             percentual = int(probabilidade * 100)
             
-            if diagnostico == "Sem distúrbio":
+            if diagnostico == "Saudável (Sem Distúrbio)":
                 st.success(f"**{diagnostico}**: {percentual}%")
                 st.progress(percentual)
             else:
@@ -75,23 +86,3 @@ if submitted:
                 else:
                     st.warning(f"**{diagnostico}**: {percentual}%")
                 st.progress(percentual)
-
-        try:
-            sistole, diastole = pressao.split('/')
-        except:
-            sistole, diastole = 0, 0
-
-        with st.expander("Ver dados técnicos enviados ao modelo"):
-            st.json({
-                "Gender": genero,
-                "Age": idade,
-                "Occupation": ocupacao,
-                "Sleep Duration": duracao_sono,
-                "Quality of Sleep": "?", 
-                "Physical Activity Level": ativ_fisica,
-                "Stress Level": nivel_stress,
-                "BMI Category": bmi,
-                "Heart Rate": freq_cardiaca,
-                "Blood Pressure (Sys)": sistole,
-                "Blood Pressure (Dia)": diastole
-            })

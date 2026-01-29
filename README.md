@@ -12,7 +12,7 @@ O sistema recebe dados clínicos e prevê riscos de Insônia ou Apneia.
 1. Clone o repositório.
 2. Instale as dependências:
    ```bash
-   pip install -r requirements.txt
+   python -m pip install -r requirements.txt
 3. Execute o aplicativo:
    ```bash
-   streamlit run app.py
+   python -m streamlit run app.py
