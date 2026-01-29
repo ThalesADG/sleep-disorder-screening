@@ -44,7 +44,6 @@ with st.form("ficha_paciente"):
     col3, col4 = st.columns(2)
     with col3:
         duracao_sono = st.slider("Duração do Sono (horas)", 4.0, 10.0, 7.0, step=0.1)
-        qualidade_sono = st.slider("Qualidade do Sono (Subjetiva)", 1, 10, 6)
     with col4:
         nivel_stress = st.slider("Nível de Estresse (3 a 8)", 3, 8, 5)
 
@@ -66,7 +65,6 @@ if submitted:
             "sistole": sis,
             "diastole": dia,
             "sono_duracao": duracao_sono,
-            "qualidade_sono": qualidade_sono,
             "stress": nivel_stress
         }
         
