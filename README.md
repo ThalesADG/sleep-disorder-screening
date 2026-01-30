@@ -6,7 +6,7 @@ Projeto de triagem automática desenvolvido para a Seleção da Ligia 2026.
 O sistema recebe dados clínicos e prevê riscos de Insônia ou Apneia.
 
 ## 👥 Equipe
-- **Front-end (PoC):** Thales Afonso, Pedro Henrique
+- **Front-end (PoC):** Thales Afonso, Pedro Bezerra
 - **Modelagem:** Paulo Teodoro
 - **Análise de Dados:** Ivison Rafael, Mirella Fontinelle, Mariana Beatriz
 
