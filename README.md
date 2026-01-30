@@ -5,7 +5,7 @@ O sistema recebe dados clínicos e prevê riscos de Insônia ou Apneia.
 
 ## 👥 Equipe
 - **Front-end (PoC):** Thales Afonso, Pedro Henrique
-- **Modelagem:** Pedro Barros, Felipe Berardo, João Gustavo
+- **Modelagem:** Paulo Teodoro
 - **Análise de Dados:** Ivison Rafael, Mirella Fontinelle, Mariana Beatriz
 
 ## 🚀 Como rodar o projeto
