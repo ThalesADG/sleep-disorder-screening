@@ -28,9 +28,9 @@ O sistema recebe dados clínicos e prevê riscos de Insônia ou Apneia.
 # ℹ️ Informações Complementares
 
 ## 📚 Notebooks Colab
-- 🔍 **EDA:** [Colab](https://drive.google.com/file/d/1IBf0hNjq00lFcrAqjPxLdrtvyr-vOaXa/view?usp=sharing)
-- 🧪 **Desenvolvimento:** [Colab](https://colab.research.google.com/drive/1ZvHcHiQM4VPUL8MGKM7PfqMJltERJfMr?usp=drive_link)
-- ⚙️ **Inferência:** [Colab](https://colab.research.google.com/drive/1eSu_BYy89-GnoMUBzBcXp51ZIUPj8c8n?usp=drive_link)
+- 🔍 **EDA:** [Colab](https://colab.research.google.com/drive/1HDcvgthcB4ooSTJvoMyNNtQvkwy_t6rh?usp=sharing)
+- 🧪 **Desenvolvimento:** [Colab](https://colab.research.google.com/drive/1ZvHcHiQM4VPUL8MGKM7PfqMJltERJfMr)
+- ⚙️ **Inferência:** [Colab](https://colab.research.google.com/drive/1eSu_BYy89-GnoMUBzBcXp51ZIUPj8c8n)
 
 *Obs.: Os notebooks também estão disponíveis no repositório na pasta `notebooks`.*
 
