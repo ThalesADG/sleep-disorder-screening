@@ -35,5 +35,5 @@ O sistema recebe dados clínicos e prevê riscos de Insônia ou Apneia.
 *Obs.: Os notebooks também estão disponíveis no repositório na pasta `notebooks`.*
 
 ## 🔗 Referências e Entregáveis
-- 🎥 **Vídeo:**  
-- 📄 **Relatório:**
+- 🎥 **Vídeo:** [Link](https://drive.google.com/file/d/17_8ysheBKVJgaZYGyydcFlAkiZYbl3Zk/view?usp=drive_link) 
+- 📄 **Relatório:** [Link](https://drive.google.com/file/d/1ECFPDvJJ4MTABwMi-tt6hdX1b_m56ijL/view?usp=drive_link) 
